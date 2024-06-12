@@ -1,5 +1,5 @@
 #include <iostream>
-#include "window.h"
+#include "window/window.h"
 
 #define LOG(X) std::cout << X << std::endl
 
