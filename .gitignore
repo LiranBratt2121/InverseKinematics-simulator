@@ -1,2 +1,6 @@
 *.exe
 *.json
+build/
+
+!CMakeLists.txt
+!Makefile
