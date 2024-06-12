@@ -23,7 +23,7 @@ Vector2d Vector2d::operator-(const Vector2d &other) const{
 }
 
 float Vector2d::GetRealArgument() const{
-    if (m_x == 0  || m_y == 0) {
+    if (m_x == 0 || m_y == 0) {
         return 0.0f;
     }
 
@@ -31,7 +31,7 @@ float Vector2d::GetRealArgument() const{
 }
 
 float Vector2d::GetArgument() const{
-    if (m_x == 0  || m_y == 0) {
+    if (m_x == 0 || m_y == 0) {
         return 0.0f;
     }
     
