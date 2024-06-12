@@ -1,4 +1,4 @@
-#include "window.h"
+#include "window/window.h"
 
 LRESULT CALLBACK WindowProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam){
     switch (uMsg){
@@ -34,6 +34,11 @@ Window::Window() : m_hInstance(GetModuleHandle(nullptr)){
     rect.right = rect.left + width;
     rect.bottom = rect.top + height;
 
+    float realWidth = rect.right - rect.left;
+    float realHeight = rect.bottom - rect.top;
+
+    m_middlePoint.Update((float)realWidth / 2, (float)realHeight / 2);
+
     AdjustWindowRect(&rect, style, FALSE);
 
     m_hWnd = CreateWindowExW(0, 
@@ -42,8 +47,8 @@ Window::Window() : m_hInstance(GetModuleHandle(nullptr)){
                              style,
                              rect.left,
                              rect.top,
-                             rect.right - rect.left,
-                             rect.bottom - rect.top,
+                             realWidth,
+                             realHeight,
                              nullptr,
                              nullptr,
                              m_hInstance,
@@ -55,6 +60,13 @@ Window::Window() : m_hInstance(GetModuleHandle(nullptr)){
 
 Window::~Window(){
     UnregisterClassW(CLASS_NAME, m_hInstance);
+}
+
+void Window::Draw(Arm &arm){
+    m_line1.Update(arm.GetPart1() + m_middlePoint);
+    m_line2.Update(arm.GetPart2() - m_line1);
+
+    // DRAWING LOGIC!
 }
 
 bool Window::ProcessMessages(){
