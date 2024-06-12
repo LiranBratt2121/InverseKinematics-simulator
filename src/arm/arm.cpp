@@ -1,6 +1,7 @@
 #include "arm/arm.h"
 
-Arm::Arm(float len1, float len2, Vector2d &desiredPosition) : m_len1(len1), m_len2(len2), m_desiredPosition(desiredPosition){}
+Arm::Arm(float len1, float len2, Vector2d &desiredPosition) 
+    : m_len1(len1), m_len2(len2), m_desiredPosition(desiredPosition) {}
 
 void Arm::Update(){
     m_pivot1Deg = GetBeta();
@@ -16,13 +17,11 @@ void Arm::Update(){
     m_part2.Update(m_part2X, m_part2Y);
 }
 
-Vector2d& Arm::GetPart1()
-{
+Vector2d& Arm::GetPart1(){
     return m_part1;
 }
 
-Vector2d& Arm::GetPart2()
-{
+Vector2d& Arm::GetPart2(){
     return m_part2;
 }
 
