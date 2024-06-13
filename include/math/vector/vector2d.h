@@ -1,6 +1,8 @@
 #pragma once
 
 #include <cmath>
+#include <string>
+#include <sstream>
 
 constexpr float TO_DEGREES = 180 / 3.14159;
 constexpr float TO_RADS = 3.14159 / 180;
@@ -18,6 +20,8 @@ struct Vector2d {
     float GetRealArgument() const;
     float GetArgument() const;
     float GetLength() const;
+
+    std::string ToString() const;
     
     float m_x, m_y;
 };
