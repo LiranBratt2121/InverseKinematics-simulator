@@ -1,9 +1,9 @@
 #include "arm/arm.h"
 
-Arm::Arm(float len1, float len2, Vector2d &desiredPosition) 
+Arm::Arm(float len1, float len2, const Vector2d &desiredPosition) 
     : m_len1(len1), m_len2(len2), m_desiredPosition(desiredPosition) {}
 
-void Arm::Update(){
+void Arm::Update() {
     m_pivot1Deg = GetBeta();
     m_pivot2Deg = GetAlpha();
 
@@ -25,26 +25,33 @@ const Vector2d& Arm::GetPart2() const {
     return m_part2;
 }
 
-float Arm::GetAlpha(){
+void Arm::SetDesiredPosition(const Vector2d &desiredPosition) {
+    m_desiredPosition.Update(desiredPosition);
+}
+
+const Vector2d& Arm::GetDesiredPosition() const {
+    return m_desiredPosition;
+}
+
+float Arm::GetAlpha() {
     float numerator = (m_len1 * m_len1) + (m_len2 * m_len2) - pow(GetDesiredPosVectorDistance(), 2);
     float denominator = 2 * m_len1 * m_len2;
     return acos(numerator / denominator) * TO_DEGREES;
 }
 
-float Arm::GetBeta(){
+float Arm::GetBeta() {
     return GetLambda() + GetTheta();
 }
 
-float Arm::GetDesiredPosVectorDistance(){
+float Arm::GetDesiredPosVectorDistance() {
     return m_desiredPosition.GetLength();
 }
 
-
-float Arm::GetLambda(){
+float Arm::GetLambda() {
     return 90 - m_desiredPosition.GetArgument();
 }
 
-float Arm::GetTheta(){
+float Arm::GetTheta() {
     float numerator = m_len2 * sin(GetAlpha() * TO_RADS);
     float denominator = GetDesiredPosVectorDistance();
     return asin(numerator / denominator) * TO_DEGREES;
