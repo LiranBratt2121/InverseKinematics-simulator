@@ -88,6 +88,21 @@ Window::~Window() {
     UnregisterClassW(CLASS_NAME, m_hInstance);
 }
 
+void Window::DrawGrid(HDC& hdc) const {
+    RECT rect;
+    GetClientRect(m_hWnd, &rect);
+
+    DrawLine(hdc, Vector2d{m_middlePoint.m_x, 0}, Vector2d{m_middlePoint.m_x, static_cast<float>(rect.bottom)});
+    DrawLine(hdc, Vector2d{0, m_middlePoint.m_y}, Vector2d{(float)(rect.right), m_middlePoint.m_y});
+
+    InvalidateRect(m_hWnd, nullptr, TRUE);
+}
+
+void Window::DrawArm(HDC& hdc) const {
+    DrawLine(hdc, m_middlePoint, m_arm.GetPart1());
+    DrawLine(hdc, m_arm.GetPart1(), m_arm.GetPart2());
+}
+
 void Window::DrawLine(HDC hdc, const Vector2d& start, const Vector2d& end) const {
     MoveToEx(hdc, static_cast<int>(start.m_x), static_cast<int>(start.m_y), nullptr);
     LineTo(hdc, static_cast<int>(end.m_x), static_cast<int>(end.m_y));
