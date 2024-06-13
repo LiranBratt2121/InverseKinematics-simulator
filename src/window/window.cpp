@@ -78,11 +78,10 @@ Window::~Window(){
     UnregisterClassW(CLASS_NAME, m_hInstance);
 }
 
-void Window::Draw(Arm &arm){
-    m_line1.Update(arm.GetPart1() + m_middlePoint);
-    m_line2.Update(arm.GetPart2() - m_line1);
-
-    // DRAWING LOGIC!
+void Window::DrawLine(HDC hdc, const Vector2d& start, const Vector2d& end) const {
+    MoveToEx(hdc, static_cast<int>(start.m_x), static_cast<int>(start.m_y), nullptr);
+    LineTo(hdc, static_cast<int>(end.m_x), static_cast<int>(end.m_y));
+    std::cout << "drawing line, start: " << start.ToString() << ", end: " << end.ToString() << std::endl;
 }
 
 bool Window::ProcessMessages(){
