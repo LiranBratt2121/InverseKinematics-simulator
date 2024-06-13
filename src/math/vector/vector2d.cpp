@@ -41,3 +41,8 @@ float Vector2d::GetArgument() const{
 float Vector2d::GetLength() const{
     return hypot(m_x, m_y);
 }
+std::string Vector2d::ToString() const {
+  std::stringstream ss;
+  ss << "[" << m_x << ", " << m_y << "]";
+  return ss.str();
+}
