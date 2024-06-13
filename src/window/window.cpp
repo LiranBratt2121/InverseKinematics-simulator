@@ -29,7 +29,7 @@ LRESULT CALLBACK WindowProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam){
     return DefWindowProcW(hWnd, uMsg, wParam, lParam);
 }
 
-Window::Window() : m_hInstance(GetModuleHandle(nullptr)){
+Window::Window() : m_hInstance(GetModuleHandle(nullptr)), m_arm(20, 25, Vector2d{0, 0}) {
     WNDCLASSW wndClass = {};
     wndClass.lpszClassName = CLASS_NAME;
     wndClass.hInstance = m_hInstance;
