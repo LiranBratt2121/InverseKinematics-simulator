@@ -129,9 +129,9 @@ Vector2d Window::GetScreenXY(LPARAM lParam) const {
     float y = HIWORD(lParam);
     return Vector2d{x, y};
 }
-void Window::DrawLine(const HDC& hdc, const Vector2d &start, const Vector2d &end) const {
-    std::cout << "drawing line, start:" << start.ToString() << ", end:" << end.ToString() << std::endl;
 
-    MoveToEx(hdc, start.m_x, start.m_y, nullptr);
-    LineTo(hdc, end.m_x, end.m_y);
+void Window::UpdateOnScreenVectors(LPARAM lParam) {
+    m_arm.SetDesiredPosition(GetScreenXY(lParam));
+    m_arm.Update();
+    InvalidateRect(m_hWnd, nullptr, TRUE);
 }
