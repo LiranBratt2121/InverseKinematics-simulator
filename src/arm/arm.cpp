@@ -17,11 +17,11 @@ void Arm::Update(){
     m_part2.Update(m_part2X, m_part2Y);
 }
 
-Vector2d& Arm::GetPart1(){
+const Vector2d& Arm::GetPart1() const {
     return m_part1;
 }
 
-Vector2d& Arm::GetPart2(){
+const Vector2d& Arm::GetPart2() const {
     return m_part2;
 }
 
