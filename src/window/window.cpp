@@ -8,6 +8,9 @@ LRESULT CALLBACK WindowProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam){
         case WM_DESTROY:
             PostQuitMessage(0);
             return 0;
+        case WM_LBUTTONDOWN:
+            Window::GetScreenXY(lParam);
+            break;
     }
 
     return DefWindowProcW(hWnd, uMsg, wParam, lParam);
@@ -82,4 +85,12 @@ bool Window::ProcessMessages(){
     }
 
     return true;
+}
+Vector2d Window::GetScreenXY(LPARAM lParam){
+    float x = LOWORD(lParam);
+    float y = HIWORD(lParam);
+    Vector2d screenXY = Vector2d(x, y);
+
+    std::cout << screenXY.ToString() << std::endl;
+    return screenXY;
 }
