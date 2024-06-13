@@ -109,13 +109,11 @@ bool Window::ProcessMessages(){
 
     return true;
 }
-Vector2d Window::GetScreenXY(LPARAM lParam){
+
+Vector2d Window::GetScreenXY(LPARAM lParam) const {
     float x = LOWORD(lParam);
     float y = HIWORD(lParam);
-    Vector2d screenXY = Vector2d(x, y);
-
-    std::cout << screenXY.ToString() << std::endl;
-    return screenXY;
+    return Vector2d{x, y};
 }
 void Window::DrawLine(const HDC& hdc, const Vector2d &start, const Vector2d &end) const {
     std::cout << "drawing line, start:" << start.ToString() << ", end:" << end.ToString() << std::endl;
