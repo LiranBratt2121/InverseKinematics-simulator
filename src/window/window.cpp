@@ -1,6 +1,8 @@
+#include <windows.h>
+#include <iostream>
 #include "window/window.h"
 
-LRESULT CALLBACK WindowProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam){
+LRESULT CALLBACK WindowProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
     Window *window = nullptr;
 
     if (uMsg == WM_NCCREATE) {
@@ -20,7 +22,7 @@ LRESULT CALLBACK WindowProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam){
             PostQuitMessage(0);
             return 0;
         case WM_LBUTTONDOWN:
-            Window::GetScreenXY(lParam);
+                window->UpdateOnScreenVectors(lParam);
             break;
         case WM_PAINT:
             {
@@ -61,10 +63,7 @@ Window::Window() : m_hInstance(GetModuleHandle(nullptr)), m_arm(20, 25, Vector2d
     rect.right = rect.left + width;
     rect.bottom = rect.top + height;
 
-    float realWidth = rect.right - rect.left;
-    float realHeight = rect.bottom - rect.top;
-
-    m_middlePoint.Update((float)realWidth / 2, (float)realHeight / 2);
+    m_middlePoint.Update((float)(rect.right - rect.left) / 2.0f, (float)(rect.bottom - rect.top) / 2.0f);
 
     AdjustWindowRect(&rect, style, FALSE);
 
@@ -74,18 +73,18 @@ Window::Window() : m_hInstance(GetModuleHandle(nullptr)), m_arm(20, 25, Vector2d
                              style,
                              rect.left,
                              rect.top,
-                             realWidth,
-                             realHeight,
+                             rect.right - rect.left,
+                             rect.bottom - rect.top,
                              nullptr,
                              nullptr,
                              m_hInstance,
-                             nullptr
+                             this
                         );
 
     ShowWindow(m_hWnd, SW_SHOW);
 }
 
-Window::~Window(){
+Window::~Window() {
     UnregisterClassW(CLASS_NAME, m_hInstance);
 }
 
@@ -95,11 +94,11 @@ void Window::DrawLine(HDC hdc, const Vector2d& start, const Vector2d& end) const
     std::cout << "drawing line, start: " << start.ToString() << ", end: " << end.ToString() << std::endl;
 }
 
-bool Window::ProcessMessages(){
+bool Window::ProcessMessages() {
     MSG msg = {};
 
-    while (PeekMessage(&msg, nullptr, 0u, 0u, PM_REMOVE)){
-        if (msg.message == WM_QUIT){
+    while (PeekMessage(&msg, nullptr, 0u, 0u, PM_REMOVE)) {
+        if (msg.message == WM_QUIT) {
             return false;
         }
 
