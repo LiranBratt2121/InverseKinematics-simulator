@@ -94,3 +94,9 @@ Vector2d Window::GetScreenXY(LPARAM lParam){
     std::cout << screenXY.ToString() << std::endl;
     return screenXY;
 }
+void Window::DrawLine(const HDC& hdc, const Vector2d &start, const Vector2d &end) const {
+    std::cout << "drawing line, start:" << start.ToString() << ", end:" << end.ToString() << std::endl;
+
+    MoveToEx(hdc, start.m_x, start.m_y, nullptr);
+    LineTo(hdc, end.m_x, end.m_y);
+}
