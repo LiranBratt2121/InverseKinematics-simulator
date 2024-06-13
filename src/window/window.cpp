@@ -1,6 +1,16 @@
 #include "window/window.h"
 
 LRESULT CALLBACK WindowProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam){
+    Window *window = nullptr;
+
+    if (uMsg == WM_NCCREATE) {
+        CREATESTRUCT *cs = reinterpret_cast<CREATESTRUCT *>(lParam);
+        window = reinterpret_cast<Window *>(cs->lpCreateParams);
+        SetWindowLongPtr(hWnd, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(window));
+    } else {
+        window = reinterpret_cast<Window *>(GetWindowLongPtr(hWnd, GWLP_USERDATA));
+    }
+
     switch (uMsg){
         case WM_CLOSE:
             DestroyWindow(hWnd);
@@ -10,6 +20,9 @@ LRESULT CALLBACK WindowProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam){
             return 0;
         case WM_LBUTTONDOWN:
             Window::GetScreenXY(lParam);
+            break;
+        case WM_PAINT:
+            window->DrawGrid();
             break;
     }
 
