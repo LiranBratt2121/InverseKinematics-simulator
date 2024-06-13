@@ -11,6 +11,8 @@ class Window {
         ~Window();
         void Draw(Arm &arm);
         bool ProcessMessages();
+        static Vector2d GetScreenXY(LPARAM lParam);
+        void DrawGrid();
     private:
         HINSTANCE m_hInstance;
         HWND m_hWnd;
