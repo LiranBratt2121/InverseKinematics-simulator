@@ -11,7 +11,8 @@ LRESULT CALLBACK WindowProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam){
         window = reinterpret_cast<Window *>(GetWindowLongPtr(hWnd, GWLP_USERDATA));
     }
 
-    switch (uMsg){
+    if (window) {
+        switch (uMsg) {
         case WM_CLOSE:
             DestroyWindow(hWnd);
             break;
@@ -22,8 +23,18 @@ LRESULT CALLBACK WindowProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam){
             Window::GetScreenXY(lParam);
             break;
         case WM_PAINT:
-            window->DrawGrid();
+            {
+                PAINTSTRUCT ps;
+                HDC hdc = BeginPaint(hWnd, &ps);
+
+                if (window) {
+                    window->DrawGrid(hdc);
+                }
+
+                EndPaint(hWnd, &ps);
             break;
+            }
+        }
     }
 
     return DefWindowProcW(hWnd, uMsg, wParam, lParam);
