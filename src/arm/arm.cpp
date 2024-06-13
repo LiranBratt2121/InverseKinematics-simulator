@@ -5,7 +5,7 @@ Arm::Arm(float len1, float len2, Vector2d &desiredPosition)
 
 void Arm::Update(){
     m_pivot1Deg = GetBeta();
-    m_pivot2Deg = GetTheta();
+    m_pivot2Deg = GetAlpha();
 
     float m_part1X = m_len1 * cos(m_pivot1Deg * TO_RADS);
     float m_part1Y = m_len1 * sin(m_pivot1Deg * TO_RADS);
