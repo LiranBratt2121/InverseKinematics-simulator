@@ -1,6 +1,7 @@
 #pragma once
 
 #include "math/vector/vector2d.h"
+#include "math/kinematics/inverseKinematics.h"
 
 class Arm {
     public:
@@ -11,14 +12,7 @@ class Arm {
         const Vector2d& GetDesiredPosition() const;
         void SetDesiredPosition(const Vector2d &desiredPosition);
     private:
-        float GetAlpha();
-        float GetBeta();
-        float GetDesiredPosVectorDistance();
-        float GetLambda();
-        float GetTheta();
-
-        float m_len1;
-        float m_len2;
+        InverseKinematics m_inverseKinematics;
         Vector2d m_desiredPosition;
         Vector2d m_part1;
         Vector2d m_part2;
