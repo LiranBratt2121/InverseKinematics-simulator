@@ -4,8 +4,7 @@ Arm::Arm(const float len1, const float len2, Vector2d &desiredPosition)
     : m_len1(len1), m_len2(len2), m_desiredPosition(desiredPosition), m_inverseKinematics(len1, m_len2, desiredPosition) {}
 
 void Arm::Update() {
-    m_pivot1Deg = GetBeta();
-    m_pivot2Deg = GetAlpha();
+    m_inverseKinematics.Solve(m_pivot1Deg, m_pivot2Deg);
 
     float m_part1X = m_len1 * cos(m_pivot1Deg * TO_RADS);
     float m_part1Y = m_len1 * sin(m_pivot1Deg * TO_RADS);
@@ -33,26 +32,3 @@ const Vector2d& Arm::GetDesiredPosition() const {
     return m_desiredPosition;
 }
 
-float Arm::GetAlpha() {
-    float numerator = (m_len1 * m_len1) + (m_len2 * m_len2) - pow(GetDesiredPosVectorDistance(), 2);
-    float denominator = 2 * m_len1 * m_len2;
-    return acos(numerator / denominator) * TO_DEGREES;
-}
-
-float Arm::GetBeta() {
-    return GetLambda() + GetTheta();
-}
-
-float Arm::GetDesiredPosVectorDistance() {
-    return m_desiredPosition.GetLength();
-}
-
-float Arm::GetLambda() {
-    return 90 - m_desiredPosition.GetArgument();
-}
-
-float Arm::GetTheta() {
-    float numerator = m_len2 * sin(GetAlpha() * TO_RADS);
-    float denominator = GetDesiredPosVectorDistance();
-    return asin(numerator / denominator) * TO_DEGREES;
-}
