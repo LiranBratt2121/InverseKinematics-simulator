@@ -3,6 +3,11 @@
 InverseKinematics::InverseKinematics(const float len1, const float len2, Vector2d& desiredPosition)
     : m_desiredPosition(desiredPosition), m_len1(len1), m_len2(len2) {}
 
+void InverseKinematics::Solve(float& pivotAngle1, float& pivotAngle2) {
+    pivotAngle1 = GetBeta();
+    pivotAngle2 = GetAlpha();
+}
+
 float InverseKinematics::GetAlpha() {
     float numerator = (m_len1 * m_len1) + (m_len2 * m_len2) - pow(GetDesiredPosVectorDistance(), 2);
     float denominator = 2 * m_len1 * m_len2;
