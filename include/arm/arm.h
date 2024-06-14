@@ -4,13 +4,12 @@
 
 class Arm {
     public:
-        Arm(float len1, float len2, const Vector2d &desiredPosition);
+        Arm(const float len1, const float len2, Vector2d &desiredPosition);
         void Update();
         const Vector2d& GetPart1() const;
         const Vector2d& GetPart2() const;
-        void SetDesiredPosition(const Vector2d &desiredPosition);
         const Vector2d& GetDesiredPosition() const;
-
+        void SetDesiredPosition(const Vector2d &desiredPosition);
     private:
         float GetAlpha();
         float GetBeta();
@@ -23,6 +22,8 @@ class Arm {
         Vector2d m_desiredPosition;
         Vector2d m_part1;
         Vector2d m_part2;
+        const float m_len1;
+        const float m_len2;
         float m_pivot1Deg;
         float m_pivot2Deg;
 };
