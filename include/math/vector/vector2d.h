@@ -4,8 +4,7 @@
 #include <string>
 #include <sstream>
 
-constexpr float TO_DEGREES = 180 / 3.14159;
-constexpr float TO_RADS = 3.14159 / 180;
+#include "math/constants.h"
 
 struct Vector2d {
     Vector2d();
