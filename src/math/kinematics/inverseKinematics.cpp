@@ -1,6 +1,6 @@
-#include "kinematics/inverseKinematics.h"
+#include "math/kinematics/inverseKinematics.h"
 
-InverseKinematics::InverseKinematics(const float len1, const float len2, Vector2d& desiredPosition)
+InverseKinematics::InverseKinematics(const float len1, const float len2, const Vector2d& desiredPosition)
     : m_desiredPosition(desiredPosition), m_len1(len1), m_len2(len2) {}
 
 void InverseKinematics::Solve(float& pivotAngle1, float& pivotAngle2) {
