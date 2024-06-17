@@ -1,6 +1,7 @@
-#include <windows.h>
 #include <iostream>
 #include "window/window.h"
+
+#define LOG(X) std::cout << X << std::endl
 
 LRESULT CALLBACK WindowProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
     Window *window = nullptr;
@@ -22,27 +23,29 @@ LRESULT CALLBACK WindowProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) 
             PostQuitMessage(0);
             return 0;
         case WM_LBUTTONDOWN:
-                window->UpdateOnScreenVectors(lParam);
+            window->UpdateOnScreenVectors(lParam);
+            InvalidateRect(hWnd, nullptr, TRUE);
             break;
-        case WM_PAINT:
-            {
-                PAINTSTRUCT ps;
-                HDC hdc = BeginPaint(hWnd, &ps);
+        case WM_PAINT: 
+        {
+            PAINTSTRUCT ps;
+            HDC hdc = BeginPaint(hWnd, &ps);
 
-                if (window) {
-                    window->DrawGrid(hdc);
-                }
-
-                EndPaint(hWnd, &ps);
-            break;
+            if (window) {
+                window->DrawGrid(hdc);
+                window->DrawArm(hdc);
             }
+
+            EndPaint(hWnd, &ps);
+        }
+        break;
         }
     }
 
     return DefWindowProcW(hWnd, uMsg, wParam, lParam);
 }
 
-Window::Window() : m_hInstance(GetModuleHandle(nullptr)), m_arm(20, 25, Vector2d{0, 0}) {
+Window::Window() : m_hInstance(GetModuleHandle(nullptr)), m_arm(300, 300, Vector2d(0, 0)) {
     WNDCLASSW wndClass = {};
     wndClass.lpszClassName = CLASS_NAME;
     wndClass.hInstance = m_hInstance;
@@ -94,8 +97,6 @@ void Window::DrawGrid(HDC& hdc) const {
 
     DrawLine(hdc, Vector2d{m_middlePoint.m_x, 0}, Vector2d{m_middlePoint.m_x, static_cast<float>(rect.bottom)});
     DrawLine(hdc, Vector2d{0, m_middlePoint.m_y}, Vector2d{(float)(rect.right), m_middlePoint.m_y});
-
-    InvalidateRect(m_hWnd, nullptr, TRUE);
 }
 
 void Window::DrawArm(HDC& hdc) const {
@@ -106,7 +107,6 @@ void Window::DrawArm(HDC& hdc) const {
 void Window::DrawLine(HDC hdc, const Vector2d& start, const Vector2d& end) const {
     MoveToEx(hdc, static_cast<int>(start.m_x), static_cast<int>(start.m_y), nullptr);
     LineTo(hdc, static_cast<int>(end.m_x), static_cast<int>(end.m_y));
-    std::cout << "drawing line, start: " << start.ToString() << ", end: " << end.ToString() << std::endl;
 }
 
 bool Window::ProcessMessages() {
