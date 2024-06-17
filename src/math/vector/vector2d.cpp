@@ -1,8 +1,13 @@
 #include "math/vector/vector2d.h"
+#include <iostream>
+
+#define LOG(X) std::cout << X << std::endl  
 
 Vector2d::Vector2d() : m_x(0), m_y(0) {}
 
 Vector2d::Vector2d(float x, float y) : m_x(x), m_y(y) {}
+
+Vector2d::Vector2d(const Vector2d &other) : m_x(other.m_x), m_y(other.m_y){}
 
 void Vector2d::Update(float x, float y){
     m_x = x;
@@ -39,7 +44,7 @@ float Vector2d::GetArgument() const{
 }
 
 float Vector2d::GetLength() const{
-    return hypot(m_x, m_y);
+    return std::hypot(m_x, m_y);
 }
 
 std::string Vector2d::ToString() const {
