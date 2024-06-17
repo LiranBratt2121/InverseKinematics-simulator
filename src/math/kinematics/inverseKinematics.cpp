@@ -1,11 +1,19 @@
 #include "math/kinematics/inverseKinematics.h"
+#include <iostream>
 
-InverseKinematics::InverseKinematics(const float len1, const float len2, const Vector2d& desiredPosition)
+#define LOG1(X) std::cout << std::to_string(X) << std::endl;
+#define LOG(X) std::cout << (X) << std::endl;
+
+InverseKinematics::InverseKinematics(const float len1, const float len2, Vector2d& desiredPosition)
     : m_desiredPosition(desiredPosition), m_len1(len1), m_len2(len2) {}
 
 void InverseKinematics::Solve(float& pivotAngle1, float& pivotAngle2) {
     pivotAngle1 = GetBeta();
     pivotAngle2 = GetAlpha();
+}
+
+void InverseKinematics::Update(const Vector2d &desiredPos) {
+    m_desiredPosition.Update(desiredPos);
 }
 
 float InverseKinematics::GetAlpha() {
