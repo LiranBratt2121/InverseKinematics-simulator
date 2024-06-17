@@ -5,7 +5,7 @@
 
 class Arm {
     public:
-        Arm(const float len1, const float len2, Vector2d &desiredPosition);
+        Arm(const float len1, const float len2, const Vector2d &desiredPosition);
         void Update();
         const Vector2d& GetPart1() const;
         const Vector2d& GetPart2() const;
