@@ -1,9 +1,14 @@
 #include "arm/arm.h"
+#include <iostream>
+#include <ostream>
+
+#define LOG(X) std::cout << X << std::endl;
 
 Arm::Arm(const float len1, const float len2, Vector2d&& desiredPosition) 
     : m_len1(len1), m_len2(len2), m_desiredPosition(desiredPosition), m_inverseKinematics(len1, len2, desiredPosition) {}
 
 void Arm::Update() {
+    m_inverseKinematics.Update(m_desiredPosition);
     m_inverseKinematics.Solve(m_pivot1Deg, m_pivot2Deg);
 
     float m_part1X = m_len1 * cos(m_pivot1Deg * TO_RADS);
