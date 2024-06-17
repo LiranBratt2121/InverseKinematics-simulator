@@ -131,7 +131,12 @@ Vector2d Window::GetScreenXY(LPARAM lParam) const {
 }
 
 void Window::UpdateOnScreenVectors(LPARAM lParam) {
-    m_arm.SetDesiredPosition(GetScreenXY(lParam));
+    Vector2d cursorPos = GetScreenXY(lParam);
+    m_arm.SetDesiredPosition(cursorPos);
     m_arm.Update();
+    LOG("Cursor Pos " + cursorPos.ToString());
+    LOG("Desired Pos " + m_arm.GetDesiredPosition().ToString());
+    LOG("Pos1 " + m_arm.GetPart1().ToString());
+    LOG("Pos2 " + m_arm.GetPart2().ToString());
     InvalidateRect(m_hWnd, nullptr, TRUE);
 }
