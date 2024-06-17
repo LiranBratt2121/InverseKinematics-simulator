@@ -9,6 +9,7 @@
 struct Vector2d {
     Vector2d();
     Vector2d(float x, float y);
+    Vector2d(const Vector2d& other);
 
     void Update(float x, float y);
     void Update(const Vector2d& other);
